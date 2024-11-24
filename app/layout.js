@@ -16,9 +16,9 @@ const montserrat = Montserrat({
 
 export default function RootLayout({ children }) {
   const meta = {
-    title: "Mentdev",
-    description: "Mentdev",
-    cardImage: "/icon.webp",
+    title: "MonradMedia",
+    description: "MonradMedia",
+    cardImage: "Monrad Media (1).png",
   };
 
   return (
@@ -29,8 +29,7 @@ export default function RootLayout({ children }) {
         <link
           rel="icon"
           href="/favicon.ico"
-          type="favicon.ico"
-          sizes="128x128"
+          sizes="32x32" // Use the correct sizes (32x32 in this case)
         />
         <meta content={meta.description} name="description" />
         <meta
@@ -49,21 +48,9 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.cardImage} />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-Y8KCF2C26R"
-        ></script>
-        <script>
-          {`window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-38HBZ95D9M');
-          `}
-        </script>
       </Head>
 
       <body className={montserrat.className}>
-        {" "}
         {/* Apply the font class to the body */}
         <Navbar />
         <ParallaxProvider>
