@@ -98,7 +98,7 @@ const DesktopNavbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-40">
+      <div className="sticky top-0 z-50   ">
         <motion.nav
           className="bg-white text-black/60"
           role="navigation"
@@ -108,7 +108,7 @@ const DesktopNavbar = () => {
             <div className="absolute left-1/4 transform -translate-x-1/2 z-10 hover:scale-90 duration-500">
               <Link href="/">
                 <Image
-                  src="/Monrad Media.webp"
+                  src="/Monrad Media (1).png"
                   alt="Monrad Media"
                   width={100} // Set the width
                   height={100} // Set the height
@@ -118,40 +118,10 @@ const DesktopNavbar = () => {
             </div>
 
             {/* Navigation links centered */}
-            <div className="flex justify-center items-center mx-auto space-x-12 font-bold">
-              <Link
-                href="/ommig"
-                className="hover:text-gray-300 duration-200"
-              >
-                <p className="letter-spacing"></p>
-              </Link>
-              <Link
-                href="/kontakt"
-                className="hover:text-gray-300/90 duration-500"
-              >
-                <p></p>
-              </Link>
-            </div>
+            
 
             {/* Text animation - "endlessly forward." on the right side */}
-            <motion.div
-  className="absolute right-10 text-lg text-white"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{
-    opacity: { duration: 1.5, ease: 'easeInOut' },
-    textShadow: { duration: 2, ease: 'easeInOut' },
-  }}
->
-  <motion.span
-    className="block text-right font-['Geist Mono'] text-black"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 2.5, duration: 1 }}
-  >
-    Endlessly forward.
-  </motion.span>
-</motion.div>
+           
 
           </div>
         </motion.nav>
@@ -184,12 +154,12 @@ const DesktopNavbar = () => {
     };
 
     return (
-      <nav className=" bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-30     " role="navigation ">
+      <nav className=" bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-50     " role="navigation ">
         <div className="block lg:hidden md:hidden ">
           <div className="flex justify-between items-center px-1 font-semibold ">
             <Link href="/">
               <Image
-                src="/Monrad Media.webp"
+                src="/Monrad Media (1).png"
                 alt="icon"
                 className="ml-4 scale-90   rounded-lg transition-all duration-700"
                 height={120}

@@ -2,6 +2,13 @@
 // pages/ommig/page.js
 import { motion } from "framer-motion";
 import { Rajdhani } from 'next/font/google';
+import { Sixtyfour } from "@next/font/google";
+
+
+const sixtyfourFont = Sixtyfour({
+  weight: 'variable', // or any other weight you prefer
+  subsets: ['latin'],
+});
 
 const rajdhani = Rajdhani({
   weight: '500', // Specify the weight

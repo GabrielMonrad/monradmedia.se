@@ -14,6 +14,11 @@ function MyApp({ Component, pageProps }) {
     <RootLayout>
       <div className={montserrat.className}>
         <Component {...pageProps} />
+
+        {/* "Coming soon..." message for phone resolutions */}
+        <div className="text-center text-lg font-semibold text-[#5b6d5d] p-4 hidden sm:block">
+          Coming soon...
+        </div>
       </div>
     </RootLayout>
   );
