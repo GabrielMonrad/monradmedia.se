@@ -98,7 +98,7 @@ const DesktopNavbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50   ">
+      <div className="sticky top-0 z-50    ">
         <motion.nav
           className="bg-white text-black/60"
           role="navigation"
@@ -117,7 +117,7 @@ const DesktopNavbar = () => {
               </Link>
             </div>
 
-            {/* Navigation links centered */}
+            {/* Navigation links centeredrrr */}
             
 
             {/* Text animation - "endlessly forward." on the right side */}
