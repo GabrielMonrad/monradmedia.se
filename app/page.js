@@ -5,6 +5,12 @@ import Link from "next/link";
 import { Sixtyfour } from "@next/font/google";
 import Image from "next/image"; // Glöm inte att importera Image-komponenten
 import { Lora } from "@next/font/google";
+import { Poppins } from '@next/font/google';
+
+const poppinsFont = Poppins({
+  weight: '400', // You can specify the weight if needed, or choose specific weights like '400', '700', etc.
+  subsets: ['latin'], // This defines the subset of the font (e.g., 'latin')
+});
 
 const sixtyfourFont = Sixtyfour({
   weight: 'variable', // or any other weight you prefer
@@ -45,6 +51,7 @@ const boxData = [
     title: "Inner Power (KIA)",
     director: "Gabriel Monrad",
     dop: "Filip Palmbäck & Alfred Bolsöy",
+    producer: "Tilda Persdotter",
     gaffer: "Oscar Gidefjord & Wille Jonson",
     paSoundProducer: "Tilda Persdotter",
     mua: "Otto Galli",
@@ -82,7 +89,7 @@ const boxData = [
   },
   {
     id: 5,
-    title: "Hockeygear:CCM ft6",
+    title: "Hockeygear: CCM ft6",
     director: "Gabriel Monrad",
     dop: "Gabriel Monrad",
     gaffer: "Martin Vilcek",
@@ -101,7 +108,7 @@ const boxData = [
     id: 7,
     title: "Luffarslöjd",
     director: "Edvin Runudde Bydén",
-    producer: "Henery Forsnor & Thea Grude",
+    producer: "Henry Forsnor & Thea Grude",
     dop: "Wilhelm Jonson",
     editor:"Wilhelm Jonson",
     bPhoto: "Gabriel Monrad",
@@ -171,6 +178,8 @@ const boxData = [
 
 ];
 
+
+
 const MovieDetails = ({
   movieId,
   title,
@@ -221,7 +230,7 @@ const MovieDetails = ({
     {!videoSrc ? (
   <div className="flex ">
     <motion.h1
-      className=" text-5xl font-bold text-[#5b6d5d] "
+      className=" text-5xl font-bold text-blue-700 "
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}

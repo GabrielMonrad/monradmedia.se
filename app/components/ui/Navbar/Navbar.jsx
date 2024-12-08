@@ -1,8 +1,11 @@
+"use client"
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
 import { GeistMono } from '@next/font/google';
+import { useRouter } from 'next/navigation'; // From next/navigation
+
 
 
 
@@ -42,6 +45,19 @@ const DesktopNavbar = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const controls = useAnimation();
   const lastScrollY = useRef(0); // Use ref to store last scroll position
+
+
+
+  const router = useRouter();  // Next.js router
+
+  const handleClick = () => {
+    // If the current route is already the homepage, we reload the page
+    if (window.location.pathname === '/') {
+      window.location.reload();
+    } else {
+      router.push('/');
+    }
+  };
 
   const SCROLL_THRESHOLD = 80; // Set a threshold for hiding the navbar (in pixels)
 
@@ -96,6 +112,7 @@ const DesktopNavbar = () => {
     }
   }, [scrollDirection, controls, hasScrolled]);
 
+  
   return (
     <>
       <div className="sticky top-0 z-50    ">
@@ -106,15 +123,17 @@ const DesktopNavbar = () => {
           <div className="relative flex justify-between items-center p-20 font-semibold w-full bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100">
             {/* Logo positioned halfway between left border and center */}
             <div className="absolute left-1/4 transform -translate-x-1/2 z-10 hover:scale-90 duration-500">
-              <Link href="/">
-                <Image
-                  src="/Monrad Media (1).png"
-                  alt="Monrad Media"
-                  width={100} // Set the width
-                  height={100} // Set the height
-                  className="rounded-lg transition-all duration-700 hover:invert scale-110" // Adjusted to transition-all and increased duration
-                />
-              </Link>
+            <Link href="/">
+      <div onClick={handleClick}>
+        <Image
+          src="/Monrad Media (1).png"
+          alt="Monrad Media"
+          width={100} // Set the width
+          height={100} // Set the height
+          className="rounded-lg transition-all duration-700 hover:invert scale-110"
+        />
+      </div>
+    </Link>
             </div>
 
             {/* Navigation links centeredrrr */}

@@ -35,7 +35,7 @@ export default function Ommig() {
       variants={pageVariants} // Animation variants for background
       transition={{ duration: 1 }} // Duration of the animation
     >
-      <div className="relative w-screen h-screen flex items-center overflow-hidden">
+      <div className="relative w-screen h-screen flex items-center overflow-hidden ">
         {/* Background Image */}
         <motion.img
           src="/Bild4 2.jpeg" // Kontrollera att sökvägen är korrekt
