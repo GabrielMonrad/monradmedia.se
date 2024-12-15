@@ -7,10 +7,12 @@ const poppinsFont = Poppins({
 });
 
 const HoverEffect = ({ index, boxData, isMobile }) => {
-  const excludedIds = [2, 6, 8, 9, 14, 15]; // Excluded IDs for hover effect
-  const title = boxData[index]?.title; // Get title from boxData for this index
-
   const [canHover, setCanHover] = useState(false); // State to control hover effect
+
+  // Conditional excluded IDs based on device type
+  const excludedIds = isMobile ? [14] : [13, 2, 6, 8, 9, 15]; // Exclude index 14 on mobile, index 13 on desktop
+
+  const title = boxData[index]?.title; // Get title from boxData for this index
 
   // If mobile, just immediately show the title (no hover effect needed)
   useEffect(() => {
