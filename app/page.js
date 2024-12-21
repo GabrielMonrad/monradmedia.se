@@ -750,8 +750,8 @@ return (
     animate={{ opacity: 1 }}
     transition={{ duration: 1 }}
     xmlns="http://www.w3.org/2000/svg"
-    preserveAspectRatio="xMidYMid slice"
-    >
+    preserveAspectRatio="none" // Allows SVG to scale without preserving aspect ratio
+  >
     {lines.map((line, index) => {
       const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
       const randomDuration = isMobile
