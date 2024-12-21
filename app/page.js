@@ -565,14 +565,9 @@ const [canHover, setCanHover] = useState(false); // Excluded IDs for hover effec
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
 const [isMobile, setIsMobile] = useState(undefined); // Start with `undefined` to wait for the window size
+
 const [lines, setLines] = useState([]); // Store the grid lines
 const [selectedMovie, setSelectedMovie] = useState(null);
-
-// **New state for SVG dimensions**
-const [svgDimensions, setSvgDimensions] = useState({
-  width: window.innerWidth,
-  height: document.body.scrollHeight,
-});
 
 // Adjust the grid based on mobile vs desktop
 const rows = isMobile === undefined ? 4 : isMobile ? 8 : 4;
@@ -590,7 +585,7 @@ const boxes = Array.from({ length: rows * cols }).map((_, index) => {
 
 useEffect(() => {
   // Ensure this code runs only on the client side
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     const updateMobileStatus = () => {
       setIsMobile(window.innerWidth < 768); // Update mobile state based on window width
     };
@@ -599,11 +594,11 @@ useEffect(() => {
     updateMobileStatus();
 
     // Add event listener for resizing the window
-    window.addEventListener("resize", updateMobileStatus);
+    window.addEventListener('resize', updateMobileStatus);
 
     // Clean up event listener when the component unmounts
     return () => {
-      window.removeEventListener("resize", updateMobileStatus);
+      window.removeEventListener('resize', updateMobileStatus);
     };
   }
 }, []); // Effect to detect window size on mount
@@ -643,39 +638,6 @@ useEffect(() => {
   }
 }, [isMobile, cols, rows]); // Re-run the effect when `isMobile`, `cols`, or `rows` changes
 
-// **New effect for SVG dimensions**
-useEffect(() => {
-  const updateSvgDimensions = () => {
-    setSvgDimensions({
-      width: window.innerWidth,
-      height: document.body.scrollHeight,
-    });
-  };
-
-  // Update SVG dimensions when component mounts or window resizes
-  updateSvgDimensions();
-  window.addEventListener("resize", updateSvgDimensions);
-
-  return () => {
-    window.removeEventListener("resize", updateSvgDimensions);
-  };
-}, []);
-
-// **Triggering reflow for Safari**
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    // Trigger a reflow to ensure Safari renders the SVG across the entire page
-    window.requestAnimationFrame(() => {
-      const svg = document.querySelector("svg");
-      if (svg) {
-        svg.style.display = "none"; // Hide SVG
-        svg.offsetHeight; // Trigger reflow
-        svg.style.display = "block"; // Show SVG again
-      }
-    });
-  }
-}, []); // This effect runs once when the component is mounted
-
 // Movie selection handlers
 const handleSelectMovie = (movie) => {
   setSelectedMovie(movie);
@@ -694,6 +656,22 @@ const handleBoxClick = (movieId, index, event) => {
   const movie = boxData.find((box) => box.id === movieId);
   setSelectedMovie(movie);
 };
+
+// Triggering reflow for Safari
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    // Trigger a reflow to ensure Safari renders the SVG across the entire page
+    window.requestAnimationFrame(() => {
+      const svg = document.querySelector('svg');
+      if (svg) {
+        svg.style.display = 'none'; // Hide SVG
+        svg.offsetHeight; // Trigger reflow
+        svg.style.display = 'block'; // Show SVG again
+      }
+    });
+  }
+}, []); // This effect runs once when the component is mounted
+
 
 const [isLoading, setIsLoading] = useState(true); // Track loading state
 
@@ -744,9 +722,9 @@ return (
 )}
 
     {/* SVG for lines */}
-    <motion.svg
-    className="absolute inset-0 w-full h-full pointer-events-none z-20"
-    initial={{ opacity: 0 }}
+      <motion.svg
+  className="absolute inset-0 min-w-full min-h-full pointer-events-none z-20"
+  initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 1 }}
     xmlns="http://www.w3.org/2000/svg"
