@@ -564,7 +564,6 @@ const [boxData, setBoxData] = useState( [
 const [canHover, setCanHover] = useState(false); // Excluded IDs for hover effect
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
-// State to track if the viewport is mobile
 const [isMobile, setIsMobile] = useState(undefined); // Start with `undefined` to wait for the window size
 
 const [lines, setLines] = useState([]); // Store the grid lines
@@ -586,7 +585,7 @@ const boxes = Array.from({ length: rows * cols }).map((_, index) => {
 
 useEffect(() => {
   // Ensure this code runs only on the client side
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     const updateMobileStatus = () => {
       setIsMobile(window.innerWidth < 768); // Update mobile state based on window width
     };
@@ -595,11 +594,11 @@ useEffect(() => {
     updateMobileStatus();
 
     // Add event listener for resizing the window
-    window.addEventListener("resize", updateMobileStatus);
+    window.addEventListener('resize', updateMobileStatus);
 
     // Clean up event listener when the component unmounts
     return () => {
-      window.removeEventListener("resize", updateMobileStatus);
+      window.removeEventListener('resize', updateMobileStatus);
     };
   }
 }, []); // Effect to detect window size on mount
@@ -658,8 +657,20 @@ const handleBoxClick = (movieId, index, event) => {
   setSelectedMovie(movie);
 };
 
-
-
+// Triggering reflow for Safari
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    // Trigger a reflow to ensure Safari renders the SVG across the entire page
+    window.requestAnimationFrame(() => {
+      const svg = document.querySelector('svg');
+      if (svg) {
+        svg.style.display = 'none'; // Hide SVG
+        svg.offsetHeight; // Trigger reflow
+        svg.style.display = 'block'; // Show SVG again
+      }
+    });
+  }
+}, []); // This effect runs once when the component is mounted
 
 
 const [isLoading, setIsLoading] = useState(true); // Track loading state
@@ -712,53 +723,53 @@ return (
 
     {/* SVG for lines */}
     <motion.svg
-  className="absolute inset-0 w-full h-full pointer-events-none z-20"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1 }}
-  xmlns="http://www.w3.org/2000/svg"
-  preserveAspectRatio="none" // Allows SVG to scale without preserving aspect ratio
->
-  {lines.map((line, index) => {
-    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
-    const randomDuration = isMobile
-      ? Math.random() * 2.5 + 1
-      : Math.random() * 1.5 + 3.7;
-    const strokeWidth = isMobile ? 3 : 4;
+      className="absolute inset-0 w-full h-full pointer-events-none z-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none" // Ensures SVG scales without preserving aspect ratio
+      viewBox="0 0 100 100" // Use a normalized viewBox for scalability across screen sizes
+    >
+      {lines.map((line, index) => {
+        const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
+        const randomDuration = isMobile
+          ? Math.random() * 2.5 + 1
+          : Math.random() * 1.5 + 3.7;
+        const strokeWidth = isMobile ? 3 : 4;
 
-    return (
-      <motion.line
-        key={index}
-        x1={line.x1}
-        y1={line.y1}
-        x2={line.x2}
-        y2={line.y2}
-        stroke="#5b665c"
-        strokeWidth={strokeWidth}
-        style={{
-          willChange: "transform, opacity", // Optimize for animation
-        }}
-        initial={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x1,
-          y2: line.y1,
-        }}
-        animate={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x2,
-          y2: line.y2,
-        }}
-        transition={{
-          duration: randomDuration * 0.9,
-          delay: randomDelay,
-        }}
-      />
-    );
-  })}
-</motion.svg>
-
+        return (
+          <motion.line
+            key={index}
+            x1={line.x1}
+            y1={line.y1}
+            x2={line.x2}
+            y2={line.y2}
+            stroke="#5b665c"
+            strokeWidth={strokeWidth}
+            style={{
+              willChange: 'transform, opacity', // Optimize for animation
+            }}
+            initial={{
+              x1: line.x1,
+              y1: line.y1,
+              x2: line.x1,
+              y2: line.y1,
+            }}
+            animate={{
+              x1: line.x1,
+              y1: line.y1,
+              x2: line.x2,
+              y2: line.y2,
+            }}
+            transition={{
+              duration: randomDuration * 0.9,
+              delay: randomDelay,
+            }}
+          />
+        );
+      })}
+    </motion.svg>
 
 
 
@@ -766,8 +777,7 @@ return (
 
 
       {isMobile ? (
-
-        
+      
     <div className="grid grid-cols-2 grid-rows-8 gap-0 p-0 w-full h-full z-10 relative">
           
     {boxData.map((box, index) => {
