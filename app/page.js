@@ -723,7 +723,7 @@ return (
 
     {/* SVG for lines */}
       <motion.svg
-  className="absolute inset-0 min-w-full min-h-full pointer-events-none z-20"
+  className="absolute inset-0 w-screen min-h-screen pointer-events-none z-20"
   initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 1 }}
