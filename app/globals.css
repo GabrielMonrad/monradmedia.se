@@ -25,21 +25,23 @@ body {
 }
 
 /* Full-page SVG container */
-motion.svg {
-  position: fixed; /* Ensure it stays fixed to cover the entire page */
-  top: 0;
-  left: 0;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  z-index: 20; /* Ensure it's above other elements */
-  pointer-events: none; /* Prevent interaction with the SVG */
-  will-change: transform, opacity; /* Optimize for animation */
-  transform: translate3d(0, 0, 0); /* For Safari performance optimization */
-}
+  .safari-svg {
+    position: fixed;        /* Fix the SVG in place to cover the entire page */
+    top: 0;
+    left: 0;
+    width: 100vw;           /* Full viewport width */
+    height: 100vh;          /* Full viewport height */
+    z-index: -1;            /* Place it behind the content */
+    pointer-events: none;   /* Prevent it from blocking clicks */
+    will-change: transform, opacity; /* Optimize for animation */
+    transform: translate3d(0, 0, 0); /* For Safari performance optimization */
+  }
 
 /* Line animations within SVG */
 motion.line {
   transition: stroke 0.3s ease-in-out; /* Optional: smooth color transition */
+  stroke: #5b665c; /* Ensure the stroke is visible */
+  stroke-width: 4px; /* Adjust the stroke width */
   stroke-dasharray: 0, 100%; /* Initial stroke state for animations */
   stroke-dashoffset: 0;
 }
@@ -65,12 +67,6 @@ motion.line {
   -webkit-transform: translate3d(0, 0, 0); /* For Safari */
   transform: translate3d(0, 0, 0);
 }
-
-.safari-svg {
-  clip-path: inset(0 0 0 0); /* Forces Safari to calculate full area */
-  -webkit-clip-path: inset(0 0 0 0); /* Safari-specific */
-}
-
 
 /* Global resets */
 * {

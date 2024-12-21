@@ -722,8 +722,8 @@ return (
 )}
 
     {/* SVG for lines */}
-    <motion.svg
-  className="absolute inset-0 w-full h-full pointer-events-none z-20 safari-svg"
+    <svg
+  className="absolute inset-0 w-full h-full pointer-events-none z-20 "
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
@@ -768,7 +768,7 @@ return (
       />
     );
   })}
-</motion.svg>
+</svg>
 
 
 
