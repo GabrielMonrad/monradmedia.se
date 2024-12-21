@@ -723,7 +723,7 @@ return (
 
     {/* SVG for lines */}
       <motion.svg
-className="relative w-full h-full pointer-events-none z-20"
+className="absolute inset-0 w-full h-full pointer-events-none z-20 safari-svg"
 initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 1 }}
