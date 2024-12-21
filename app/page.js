@@ -745,16 +745,13 @@ return (
 
     {/* SVG for lines */}
     <motion.svg
-    className="absolute inset-0 pointer-events-none z-20"
+    className="absolute inset-0 w-full h-full pointer-events-none z-20"
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 1 }}
     xmlns="http://www.w3.org/2000/svg"
-    preserveAspectRatio="none" // Ensures SVG stretches across the full viewport
-    viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} // Dynamically scale viewBox
-    width={svgDimensions.width}
-    height={svgDimensions.height}
-  >
+    preserveAspectRatio="xMidYMid slice"
+    >
     {lines.map((line, index) => {
       const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
       const randomDuration = isMobile
