@@ -716,9 +716,9 @@ return (
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
+  viewBox="0 0 100vw 100vh"  // This ensures the SVG covers the entire page
 >
   {lines.map((line, index) => {
-    // Calculate random values for each line animation
     const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
     const randomDuration = isMobile
       ? Math.random() * 2.5 + 1
@@ -734,24 +734,30 @@ return (
         y2={line.y2}
         stroke="#5b665c"
         strokeWidth={strokeWidth}
-        className="line-animation"  // Add this CSS class for animation
+        style={{
+          willChange: "transform, opacity", // Optimize for animation
+        }}
         initial={{
-          strokeDasharray: 0,
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x1,
+          y2: line.y1,
         }}
         animate={{
-          strokeDasharray: `${Math.hypot(line.x2 - line.x1, line.y2 - line.y1)}, 0`,  // Length of the line and then "hidden" portion
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x2,
+          y2: line.y2,
         }}
         transition={{
           duration: randomDuration * 0.9,
           delay: randomDelay,
         }}
-        style={{
-          willChange: "stroke-dasharray, transform, opacity", // Optimize for animation
-        }}
       />
     );
   })}
 </motion.svg>
+
 
 
 
