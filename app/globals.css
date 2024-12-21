@@ -19,21 +19,24 @@ body {
   background: var(--background);
   font-family: "Montserrat", sans-serif;
   font-weight: 200; /* ExtraLight weight */
-  
-
 }
 
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    /* Assuming you intended to add a text-related utility */
+    text-align: justify; /* This could be used to balance text */
+    text-justify: inter-word; /* For better text justification */
   }
 }
 
 * {
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Reset margin and padding */
 }
 
 .drawing-element {
-  will-change: transform; /* or opacity */
+  will-change: transform, opacity; /* Optimized for animation */
+  -webkit-transform: translate3d(0, 0, 0); /* For Safari */
+  transform: translate3d(0, 0, 0);
 }
-

@@ -718,6 +718,7 @@ return (
   transition={{ duration: 1 }}
 >
   {lines.map((line, index) => {
+    // Calculate random values for each line animation
     const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
     const randomDuration = isMobile
       ? Math.random() * 2.5 + 1
@@ -734,7 +735,7 @@ return (
         stroke="#5b665c"
         strokeWidth={strokeWidth}
         style={{
-          willChange: "transform, opacity", // Optimizing for animation
+          willChange: "transform, opacity", // Optimize for animation
         }}
         initial={{
           x1: line.x1,
@@ -749,13 +750,14 @@ return (
           y2: line.y2,
         }}
         transition={{
-          duration: randomDuration * 0.9,
+          duration: randomDuration * 0.9, // Slightly adjust duration for smoother transitions
           delay: randomDelay,
         }}
       />
     );
   })}
 </motion.svg>
+
 
 
 
