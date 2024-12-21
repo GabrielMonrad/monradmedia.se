@@ -565,20 +565,15 @@ const [canHover, setCanHover] = useState(false);// Excluded IDs for hover effect
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
 // State to track if the viewport is mobile
-const [isMobile, setIsMobile] = useState(false);
-
-// Use useEffect to access window properties only on the client side
-useEffect(() => {
-  setIsMobile(window.innerWidth < 768); // Update state only in the browser
-}, []); // Empty dependency array ensures this runs once after component mounts
+const [isMobile, setIsMobile] = useState(undefined); // Start with `undefined`
 
 
 const [lines, setLines] = useState([]); // Store the grid lines
 const [selectedMovie, setSelectedMovie] = useState(null);
 
 // Adjust the grid based on mobile vs desktop
-const rows = isMobile ? 8 : 4;
-const cols = isMobile ? 2 : 4;
+const rows = isMobile === undefined ? 4 : isMobile ? 8 : 4;
+const cols = isMobile === undefined ? 4 : isMobile ? 2 : 4;
 
 // Generate the boxes for the grid
 const boxes = Array.from({ length: rows * cols }).map((_, index) => {
@@ -591,21 +586,36 @@ const boxes = Array.from({ length: rows * cols }).map((_, index) => {
 });
 
 useEffect(() => {
+  // Ensure this code runs only on the client side
+  if (typeof window !== "undefined") {
+    const updateMobileStatus = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Update mobile status when the component mounts
+    updateMobileStatus();
+
+    // Add event listener for resizing the window
+    window.addEventListener("resize", updateMobileStatus);
+
+    // Clean up event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", updateMobileStatus);
+    };
+  }
+}, []);// Effect to create lines for the grid
+useEffect(() => {
   const createLines = () => {
     const newLines = [];
-    const boxWidth = isMobile
-      ? document.documentElement.scrollWidth / cols // Use full document width for mobile
-      : document.documentElement.scrollWidth / cols; // Use full width for desktop
-    const boxHeight = isMobile
-      ? document.documentElement.scrollHeight / rows // Use full document height for mobile
-      : document.documentElement.scrollHeight / rows; // Use full height for desktop
+    const boxWidth = isMobile === undefined ? 0 : isMobile ? window.innerWidth / cols : window.innerWidth / cols;
+    const boxHeight = isMobile === undefined ? 0 : isMobile ? window.innerHeight / rows : window.innerHeight / rows;
 
     // Horizontal lines
     for (let row = 0; row <= rows; row++) {
       newLines.push({
         x1: 0,
         y1: row * boxHeight,
-        x2: document.documentElement.scrollWidth, // Full document width for the line
+        x2: window.innerWidth,
         y2: row * boxHeight,
       });
     }
@@ -616,27 +626,20 @@ useEffect(() => {
         x1: col * boxWidth,
         y1: 0,
         x2: col * boxWidth,
-        y2: document.documentElement.scrollHeight, // Full document height for the line
+        y2: window.innerHeight,
       });
     }
 
-    setLines(newLines); // Set the generated lines
+    setLines(newLines);
   };
 
-  createLines(); // Create the lines initially
+  // Only create lines when `isMobile` is determined
+  if (isMobile !== undefined) {
+    createLines();
+  }
+}, [isMobile, cols, rows]); // Dependencies ensure lines are created when `isMobile`, `cols`, or `rows` changes
 
-  // Handle resize without recalculating on scroll
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768); // Check if on mobile (<768px)
-    createLines(); // Recalculate lines on resize
-  };
-
-  window.addEventListener("resize", handleResize); // Add resize event listener
-
-  // Clean up on component unmount
-  return () => window.removeEventListener("resize", handleResize); // Remove resize event listener
-}, [isMobile, cols, rows]);
-
+// Movie selection handlers
 const handleSelectMovie = (movie) => {
   setSelectedMovie(movie);
 };
@@ -654,7 +657,6 @@ const handleBoxClick = (movieId, index, event) => {
   const movie = boxData.find((box) => box.id === movieId);
   setSelectedMovie(movie);
 };
-
 
 return (
  <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
@@ -694,11 +696,11 @@ return (
     {/* SVG for lines */}
     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
   {lines.map((line, index) => {
-    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
+    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25; // Adjust delay for mobile
     const randomDuration = isMobile
-      ? Math.random() * 2.5 + 1
-      : Math.random() * 1.5 + 3.7;
-    const strokeWidth = isMobile ? 3 : 4;
+      ? Math.random() * 2.5 + 1 // Slow animation for mobile
+      : Math.random() * 1.5 + 3.7; // Faster for desktop
+    const strokeWidth = isMobile ? 3 : 4; // Adjust line width for mobile vs desktop
 
     return (
       <motion.line
@@ -722,14 +724,13 @@ return (
           y2: line.y2,
         }}
         transition={{
-          duration: randomDuration * 0.9,
-          delay: randomDelay,
+          duration: randomDuration * 0.9, // Slightly reduced duration for smoother effect
+          delay: randomDelay, // Random delay
         }}
       />
     );
   })}
 </svg>
-
 
 
       {isMobile ? (
