@@ -163,7 +163,7 @@ const Navbar = () => {
     };
 
     return (
-      <nav className="bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-50" role="navigation">
+      <nav className="hidden bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-50" role="navigation">
         <div className="block lg:hidden md:hidden">
           <div className="flex justify-between items-center px-1 font-semibold">
             <Link href="/">
