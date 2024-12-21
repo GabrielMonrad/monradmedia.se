@@ -84,7 +84,7 @@ const CookiePrompt = () => {
           <p className="mb-4">
             MONRAD MEDIA uses cookies to enhance your experience. <br />
             By accepting, you consent to our use of cookies. <br />
-            <Link href="/PrivacyPolicy">
+            <Link href="/policy">
               <button className="text-blue-500">Read More</button>
             </Link>
           </p>

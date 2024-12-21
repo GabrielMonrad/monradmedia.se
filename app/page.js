@@ -30,17 +30,18 @@ const baseDelay = 0.1; // Base delay for synchronization
 const imageVariants = {
   hidden: {
     opacity: 0,
-    y: 0, // Start slightly below
+    y: 0, // Start slightly below for a more noticeable transition
   },
   visible: (index) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: index * 0.2, // Stagger the entrance based on the index
-      duration: 0.5, // Duration of the fade-in effect
+      delay: index * 0.2, // Slightly shorter delay for faster sequence
+      duration: 0.3, // Increased duration for smoother transition
       type: "spring",
-      stiffness: 300,
-      damping: 20,
+      stiffness: 150, // Slightly lower stiffness for a smoother bounce
+      damping: 25, // Adjusted damping for a more fluid effect
+      mass: 10, // Optional: increase mass for a more natural feel
     },
   }),
 };
@@ -422,10 +423,7 @@ const MovieDetails = ({
   
 }
 export default function Home() {
-const [lines, setLines] = useState([]);
 const [isFullScreen, setIsFullScreen] = useState(false);
-const [isMobile, setIsMobile] = useState(false);
-const [selectedMovie, setSelectedMovie] = useState(null);
 
 
 const [boxData, setBoxData] = useState( [
@@ -563,90 +561,97 @@ const [boxData, setBoxData] = useState( [
 
 
 // State to control hover effect
-const [canHover, setCanHover] = useState(false);
-
-// Excluded IDs for hover effect
+const [canHover, setCanHover] = useState(false);// Excluded IDs for hover effect
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
-  // Adjust the grid based on mobile vs desktop
-  const rows = isMobile ? 8 : 4;
-  const cols = isMobile ? 2 : 4;
+// State to track if the viewport is mobile
+const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+const [lines, setLines] = useState([]); // Store the grid lines
+const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const boxes = Array.from({ length: rows * cols }).map((_, index) => {
-    const box = boxData[index];  // Get the corresponding box data by index
-    return {
-      id: `box-${index + 1}`,
-      link: box ? `#` : null, // Only link if data exists
-      data: box || {}, // Make sure to use the data if available, or an empty object if not
-    };
-  });
+// Adjust the grid based on mobile vs desktop
+const rows = isMobile ? 8 : 4;
+const cols = isMobile ? 2 : 4;
 
-  useEffect(() => {
-    const createLines = () => {
-      const newLines = [];
-      const boxWidth = window.innerWidth / cols;
-      const boxHeight = window.innerHeight / rows;
-
-      // Horizontal lines
-      for (let row = 0; row <= rows; row++) {
-        newLines.push({
-          x1: 0,
-          y1: row * boxHeight,
-          x2: window.innerWidth,
-          y2: row * boxHeight,
-        });
-      }
-
-      // Vertical lines
-      for (let col = 0; col <= cols; col++) {
-        newLines.push({
-          x1: col * boxWidth,
-          y1: 0,
-          x2: col * boxWidth,
-          y2: window.innerHeight,
-        });
-      }
-
-      setLines(newLines);
-    };
-
-    createLines();
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Check if on mobile (<768px)
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('resize', createLines);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('resize', createLines);
-    };
-  }, [isMobile, cols, rows]);
-
-  const handleSelectMovie = (movie) => {
-    setSelectedMovie(movie);
+// Generate the boxes for the grid
+const boxes = Array.from({ length: rows * cols }).map((_, index) => {
+  const box = boxData[index]; // Get the corresponding box data by index
+  return {
+    id: `box-${index + 1}`,
+    link: box ? `#` : null, // Only link if data exists
+    data: box || {}, // Use the data if available, or an empty object if not
   };
+});
+useEffect(() => {
+  const createLines = () => {
+    const newLines = [];
+    const boxWidth = isMobile
+      ? (window.innerWidth ) / cols // Add small padding for mobile
+      : window.innerWidth / cols;
+    const boxHeight = isMobile
+      ? (window.innerHeight ) / rows // Add small padding for mobile
+      : window.innerHeight / rows;
 
-  const handleCloseMovieDetails = () => {
-    setSelectedMovie(null);
-  };
-
-  const handleBoxClick = (movieId, index, event) => {
-    if (excludedIds.includes(index)) {
-      event.preventDefault();
-      return;
+    // Horizontal lines
+    for (let row = 0; row <= rows; row++) {
+      newLines.push({
+        x1: 0,
+        y1: row * boxHeight,
+        x2: window.innerWidth,
+        y2: row * boxHeight,
+      });
     }
 
-    const movie = boxData.find((box) => box.id === movieId);
-    setSelectedMovie(movie);
+    // Vertical lines
+    for (let col = 0; col <= cols; col++) {
+      newLines.push({
+        x1: col * boxWidth,
+        y1: 0,
+        x2: col * boxWidth,
+        y2: window.innerHeight,
+      });
+    }
+
+    setLines(newLines);
   };
 
-  return (
-    <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
+  createLines();
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768); // Check if on mobile (<768px)
+  };
+
+  handleResize();
+
+  window.addEventListener("resize", handleResize);
+  window.addEventListener("resize", createLines);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+    window.removeEventListener("resize", createLines);
+  };
+}, [isMobile, cols, rows]);
+
+const handleSelectMovie = (movie) => {
+  setSelectedMovie(movie);
+};
+
+const handleCloseMovieDetails = () => {
+  setSelectedMovie(null);
+};
+
+const handleBoxClick = (movieId, index, event) => {
+  if (excludedIds.includes(index)) {
+    event.preventDefault();
+    return;
+  }
+
+  const movie = boxData.find((box) => box.id === movieId);
+  setSelectedMovie(movie);
+};
+
+return (
+ <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
      {selectedMovie && ![2,6,8,9 ].includes(selectedMovie.id) && (  // Add condition to check if movieId is not 2 or 8
   <motion.div
     className="z-90"
@@ -680,48 +685,44 @@ const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
   </motion.div>
 )}
 
-
-      
-
-      {/* SVG for lines */}
     {/* SVG for lines */}
     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
-        {lines.map((line, index) => {
-          const randomDelay = Math.random() * 1.75 + 0.25; // Random delay between 0.25 and 2 seconds
-          const randomDuration = isMobile
-            ? Math.random() * 2 + 1 // Slow down duration for mobile
-            : Math.random() * 1.5 + 0.7; // Keep faster duration for desktop
-          const strokeWidth = 4; // Fixed line width
+  {lines.map((line, index) => {
+    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25; // Adjust delay for mobile
+    const randomDuration = isMobile
+      ? Math.random() * 2.5 + 1 // Slow animation for mobile
+      : Math.random() * 1.5 + 3.7; // Faster for desktop
+    const strokeWidth = isMobile ? 3 : 4; // Adjust line width for mobile vs desktop
 
-          return (
-            <motion.line
-              key={index}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke="#5b665c"
-              strokeWidth={strokeWidth} // Fixed line width
-              initial={{
-                x1: line.x1,
-                y1: line.y1,
-                x2: line.x1,
-                y2: line.y1,
-              }} // Initial position offscreen
-              animate={{
-                x1: line.x1,
-                y1: line.y1,
-                x2: line.x2,
-                y2: line.y2,
-              }}
-              transition={{
-                duration: randomDuration * 0.9, // Reduce duration by 30%
-                delay: randomDelay, // Random delay
-              }}
-            />
-          );
-        })}
-      </svg>
+    return (
+      <motion.line
+        key={index}
+        x1={line.x1}
+        y1={line.y1}
+        x2={line.x2}
+        y2={line.y2}
+        stroke="#5b665c"
+        strokeWidth={strokeWidth}
+        initial={{
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x1,
+          y2: line.y1,
+        }} // Initial position offscreen
+        animate={{
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x2,
+          y2: line.y2,
+        }}
+        transition={{
+          duration: randomDuration * 0.9, // Slightly reduced duration for smoother effect
+          delay: randomDelay, // Random delay
+        }}
+      />
+    );
+  })}
+</svg>
 
 
       {isMobile ? (
@@ -777,8 +778,10 @@ KONTAKT
       <motion.img
   src="/Bild6 2.webp" // Kontrollera att sökvägen är korrekt
   alt="Gabriel Monrad"
-  className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform "
+  className="w-full h-full object-cover"
   variants={imageVariants}
+  transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
   initial="hidden"
   animate="visible"
 />
@@ -788,8 +791,11 @@ KONTAKT
       <motion.img
         src="/Bild2.webp" // Kontrollera att sökvägen är korrekt
         alt="Gabriel Monrad"
-        className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
-        variants={imageVariants}
+                   className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
+                variants={imageVariants}
+// Smooth transition on load
+
         initial="hidden"
         animate="visible"
         custom={index} // Pass index for staggered animations
@@ -819,8 +825,10 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
           variants={imageVariants}
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           initial="hidden"
           animate="visible"
           custom={index} // Pass index for staggered animations
@@ -834,7 +842,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -849,7 +859,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -858,19 +870,21 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
       </div>
     )
     : index === 0 ? ( // Box 9
-      <div className="flex items-center justify-center w-full h-full overflow-hidden ">
-        <motion.img
-          src="/KIA CARS STILL_2.1.1.png" // Kontrollera att sökvägen är korrekt
-          alt="Gabriel Monrad"
-          layout="fill" // Bilden fyller hela boxen
-          objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
-          variants={imageVariants}
-          initial="hidden"
-          animate="visible"
-          custom={index} // Pass index for staggered animations
-        />
-      </div>
+      <div className="flex items-center justify-center w-full h-full overflow-hidden">
+  <motion.img
+    src="/KIA CARS STILL_2.1.1.png"
+    alt="Gabriel Monrad"
+    layout="fill"
+    objectFit="cover"
+    className="w-full h-full object-cover"
+    variants={imageVariants}
+    initial="hidden"
+    animate="visible"
+    custom={index}
+    transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+  />
+</div>
+
     )
    
     : index === 13 ? ( // Box 9
@@ -880,8 +894,10 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
           variants={imageVariants}
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           initial="hidden"
           animate="visible"
           custom={index} // Pass index for staggered animations
@@ -895,7 +911,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -910,7 +928,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -924,7 +944,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           src="/Skärmavbild 2024-10-15 kl. 19.41.31.png" // Kontrollera att sökvägen är korrekt
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
-          className="transition-all duration-500 object-cover"
+          cclassName="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -939,7 +961,8 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -955,7 +978,9 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load
+
           variants={imageVariants}
           initial="hidden"
           animate="visible"
@@ -987,8 +1012,8 @@ className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:tex
           alt="Gabriel Monrad"
           layout="fill" // Bilden fyller hela boxen
           objectFit="cover" // Täcker hela boxen
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
-          variants={imageVariants}
+                     className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+          transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load          variants={imageVariants}
           initial="hidden"
           animate="visible"
           custom={index} // Pass index for staggered animations
@@ -1075,8 +1100,8 @@ className="flex flex-col items-center justify-center w-full h-full group transit
             <motion.img
         src="/Bild6 2.webp" // Kontrollera att sökvägen är korrekt
         alt="Gabriel Monrad"
-        className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform "
-        variants={imageVariants}
+   className="w-full h-full object-cover"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load        variants={imageVariants}
         initial="hidden"
         animate="visible"
       />
@@ -1086,8 +1111,8 @@ className="flex flex-col items-center justify-center w-full h-full group transit
             <motion.img
               src="/Bild2.webp" // Kontrollera att sökvägen är korrekt
               alt="Gabriel Monrad"
-              className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
-              variants={imageVariants}
+   className="w-full h-full object-cover"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load              variants={imageVariants}
               initial="hidden"
               animate="visible"
               custom={index} // Pass index for staggered animations
@@ -1117,8 +1142,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1133,6 +1160,8 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
                 className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+                transition={{ type: "spring", stiffness: 0, damping: 100 }} // Smooth transition on load                variants={imageVariants}
+
                 variants={imageVariants}
                 initial="hidden"
                 animate="visible"
@@ -1147,8 +1176,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1162,8 +1193,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1178,8 +1211,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1193,8 +1228,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1208,8 +1245,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1237,8 +1276,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1253,8 +1294,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
@@ -1283,8 +1326,10 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
                 objectFit="cover" // Täcker hela boxen
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:translate-x-5 hover:-translate-y-5"
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
+        transition={{ type: "spring", stiffness: 0, damping: 100 }} 
                 variants={imageVariants}
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
                 custom={index} // Pass index for staggered animations
