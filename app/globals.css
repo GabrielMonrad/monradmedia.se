@@ -66,15 +66,11 @@ motion.line {
   transform: translate3d(0, 0, 0);
 }
 
-/* Safari-specific fix for SVG rendering */
-@supports (-webkit-touch-callout: none) {
-  .safari-svg {
-    position: fixed; /* Ensure it covers the entire viewport */
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
-    z-index: 20; /* Above other elements */
-  }
+.safari-svg {
+  clip-path: inset(0 0 0 0); /* Forces Safari to calculate full area */
+  -webkit-clip-path: inset(0 0 0 0); /* Safari-specific */
 }
+
 
 /* Global resets */
 * {
