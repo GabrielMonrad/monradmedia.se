@@ -565,7 +565,14 @@ const [canHover, setCanHover] = useState(false);// Excluded IDs for hover effect
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
 // State to track if the viewport is mobile
-const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+const [isMobile, setIsMobile] = useState(false);
+
+// Use useEffect to access window properties only on the client side
+useEffect(() => {
+  setIsMobile(window.innerWidth < 768); // Update state only in the browser
+}, []); // Empty dependency array ensures this runs once after component mounts
+
+
 const [lines, setLines] = useState([]); // Store the grid lines
 const [selectedMovie, setSelectedMovie] = useState(null);
 
