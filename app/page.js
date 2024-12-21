@@ -658,6 +658,23 @@ const handleBoxClick = (movieId, index, event) => {
   setSelectedMovie(movie);
 };
 
+
+
+
+
+const [isLoading, setIsLoading] = useState(true); // Track loading state
+
+// Simulate loading time (500ms)
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setIsLoading(false); // Hide loading screen after 500ms
+  }, 500);
+
+  return () => clearTimeout(timer); // Clean up timer on unmount
+}, []);
+
+
+
 return (
  <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
      {selectedMovie && ![2,6,8,9 ].includes(selectedMovie.id) && (  // Add condition to check if movieId is not 2 or 8
@@ -694,46 +711,57 @@ return (
 )}
 
     {/* SVG for lines */}
-    <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
-    {lines.map((line, index) => {
-      const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
-      const randomDuration = isMobile
-        ? Math.random() * 2.5 + 1
-        : Math.random() * 1.5 + 3.7;
-      const strokeWidth = isMobile ? 3 : 4;
+    <motion.svg
+  className="absolute inset-0 w-full h-full pointer-events-none z-20"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1 }}
+>
+  {lines.map((line, index) => {
+    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
+    const randomDuration = isMobile
+      ? Math.random() * 2.5 + 1
+      : Math.random() * 1.5 + 3.7;
+    const strokeWidth = isMobile ? 3 : 4;
 
-      return (
-        <motion.line
-          key={index}
-          x1={line.x1}
-          y1={line.y1}
-          x2={line.x2}
-          y2={line.y2}
-          stroke="#5b665c"
-          strokeWidth={strokeWidth}
-          initial={{
-            x1: line.x1,
-            y1: line.y1,
-            x2: line.x1,
-            y2: line.y1,
-          }}
-          animate={{
-            x1: line.x1,
-            y1: line.y1,
-            x2: line.x2,
-            y2: line.y2,
-          }}
-          transition={{
-            duration: randomDuration * 0.9,
-            delay: randomDelay,
-          }}
-        />
-      );
-    })}
-  </svg>
+    return (
+      <motion.line
+        key={index}
+        x1={line.x1}
+        y1={line.y1}
+        x2={line.x2}
+        y2={line.y2}
+        stroke="#5b665c"
+        strokeWidth={strokeWidth}
+        style={{
+          willChange: "transform, opacity", // Optimizing for animation
+        }}
+        initial={{
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x1,
+          y2: line.y1,
+        }}
+        animate={{
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x2,
+          y2: line.y2,
+        }}
+        transition={{
+          duration: randomDuration * 0.9,
+          delay: randomDelay,
+        }}
+      />
+    );
+  })}
+</motion.svg>
+
 
 
       {isMobile ? (
+
+        
     <div className="grid grid-cols-2 grid-rows-8 gap-0 p-0 w-full h-full z-10 relative">
           
     {boxData.map((box, index) => {
@@ -815,16 +843,14 @@ className="flex flex-col items-center justify-center w-full h-full group transit
       href="/ommig"
       className="flex flex-col items-center justify-center w-full h-full group transition-all duration-300 hover:scale-105"
     >
-      <span
-        className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
-      >
-        GABRIEL
-      </span>
-      <span
-        className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
-      >
-        MONRAD
-      </span>
+     <span
+  className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
+  style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+>
+  GABRIEL
+  <span >MONRAD</span> {/* Add margin to space it below GABRIEL */}
+</span>
+
     </Link>
     
     

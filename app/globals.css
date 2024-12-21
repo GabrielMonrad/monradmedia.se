@@ -30,4 +30,10 @@ body {
 }
 
 * {
+  
 }
+
+.drawing-element {
+  will-change: transform; /* or opacity */
+}
+
