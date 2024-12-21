@@ -1,7 +1,9 @@
+/* Tailwind CSS setup (optional, if using Tailwind) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Root variables for background and foreground colors */
 :root {
   --background: #000000;
   --foreground: #000000;
@@ -14,6 +16,7 @@
   }
 }
 
+/* Global body styling */
 body {
   color: var(--foreground);
   background: var(--background);
@@ -21,6 +24,7 @@ body {
   font-weight: 200; /* ExtraLight weight */
 }
 
+/* Utility for text justification */
 @layer utilities {
   .text-balance {
     /* Assuming you intended to add a text-related utility */
@@ -29,14 +33,57 @@ body {
   }
 }
 
+/* General reset and box-sizing for all elements */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box; /* Reset margin and padding */
 }
 
+/* Drawing animation class for SVG lines */
+.line-animation {
+  animation: drawLine 2s ease-in-out forwards;
+}
+
+/* Keyframes to animate the stroke-dasharray for drawing effect */
+@keyframes drawLine {
+  0% {
+    stroke-dasharray: 0, 100%;
+  }
+  100% {
+    stroke-dasharray: 100%, 0;
+  }
+}
+
+/* Ensure optimal rendering performance */
 .drawing-element {
-  will-change: transform, opacity; /* Optimized for animation */
+  will-change: transform, opacity, stroke-dasharray; /* Optimize for animation */
   -webkit-transform: translate3d(0, 0, 0); /* For Safari */
   transform: translate3d(0, 0, 0);
+}
+
+/* Specific styles for the SVG element to handle animation performance */
+motion.svg {
+  will-change: opacity; /* Optimize opacity transitions */
+  transition: opacity 1s ease-in-out;
+}
+
+/* Add smooth transitions for hover effects */
+motion.line {
+  transition: stroke 0.3s ease-in-out; /* Optional: smooth color transition on hover */
+}
+
+/* Mobile / tablet optimizations */
+@media (max-width: 768px) {
+  /* Adjustments for mobile viewport */
+  .line-animation {
+    animation-duration: 3s; /* Slow down animation on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further mobile optimizations for very small devices */
+  .line-animation {
+    animation-duration: 4s; /* Slow down even further on very small screens */
+  }
 }

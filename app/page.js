@@ -734,29 +734,25 @@ return (
         y2={line.y2}
         stroke="#5b665c"
         strokeWidth={strokeWidth}
-        style={{
-          willChange: "transform, opacity", // Optimize for animation
-        }}
+        className="line-animation"  // Add this CSS class for animation
         initial={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x1,
-          y2: line.y1,
+          strokeDasharray: 0,
         }}
         animate={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x2,
-          y2: line.y2,
+          strokeDasharray: `${Math.hypot(line.x2 - line.x1, line.y2 - line.y1)}, 0`,  // Length of the line and then "hidden" portion
         }}
         transition={{
-          duration: randomDuration * 0.9, // Slightly adjust duration for smoother transitions
+          duration: randomDuration * 0.9,
           delay: randomDelay,
+        }}
+        style={{
+          willChange: "stroke-dasharray, transform, opacity", // Optimize for animation
         }}
       />
     );
   })}
 </motion.svg>
+
 
 
 
