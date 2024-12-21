@@ -561,12 +561,11 @@ const [boxData, setBoxData] = useState( [
 
 
 // State to control hover effect
-const [canHover, setCanHover] = useState(false);// Excluded IDs for hover effect
+const [canHover, setCanHover] = useState(false); // Excluded IDs for hover effect
 const excludedIds = [2, 6, 8, 9, 13, 15]; // Excluded IDs for hover effect
 
 // State to track if the viewport is mobile
-const [isMobile, setIsMobile] = useState(undefined); // Start with `undefined`
-
+const [isMobile, setIsMobile] = useState(undefined); // Start with `undefined` to wait for the window size
 
 const [lines, setLines] = useState([]); // Store the grid lines
 const [selectedMovie, setSelectedMovie] = useState(null);
@@ -589,7 +588,7 @@ useEffect(() => {
   // Ensure this code runs only on the client side
   if (typeof window !== "undefined") {
     const updateMobileStatus = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 768); // Update mobile state based on window width
     };
 
     // Update mobile status when the component mounts
@@ -603,8 +602,8 @@ useEffect(() => {
       window.removeEventListener("resize", updateMobileStatus);
     };
   }
-}, []);// Effect to create lines for the grid
-// In the existing useEffect for creating lines:
+}, []); // Effect to detect window size on mount
+
 useEffect(() => {
   const createLines = () => {
     const newLines = [];
@@ -631,17 +630,14 @@ useEffect(() => {
       });
     }
 
-    setLines(newLines);
+    setLines(newLines); // Update lines after calculations
   };
 
+  // Only create lines when `isMobile` is determined
   if (isMobile !== undefined) {
     createLines();
   }
-}, [isMobile, cols, rows]);
-
-
-
-// Dependencies ensure lines are created when `isMobile`, `cols`, or `rows` changes
+}, [isMobile, cols, rows]); // Re-run the effect when `isMobile`, `cols`, or `rows` changes
 
 // Movie selection handlers
 const handleSelectMovie = (movie) => {
@@ -774,13 +770,14 @@ return (
 
 <Link
 href="/kontakt"
-className="flex flex-col items-center justify-center w-full h-full group transition-all duration-300 hover:scale-105"
+className="flex flex-col items-center justify-center w-full h-full group transition-all duration-300 "
 >
 <span
-className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
+  className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition- duration-500 hover:text-[#7f7f7f]`}
 >
-KONTAKT
+  KONTAKT
 </span>
+
 
 
 </Link>
@@ -818,17 +815,18 @@ KONTAKT
       href="/ommig"
       className="flex flex-col items-center justify-center w-full h-full group transition-all duration-300 hover:scale-105"
     >
-    <span
-className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
->
+      <span
+        className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
+      >
         GABRIEL
       </span>
       <span
-className={`${sixtyfourFont.className} sm:text-lg md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
->
+        className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
+      >
         MONRAD
       </span>
     </Link>
+    
     
     ) : index === 1 ? ( // Box 9
       <div className="flex items-center justify-center w-full h-full overflow-hidden ">

@@ -18,7 +18,8 @@ export default function RootLayout({ children }) {
   const meta = {
     title: "MonradMedia",
     description: "MonradMedia",
-    cardImage: "Monrad Media (1).png",
+    cardImage: "Monrad Media (1).png", // Ensure this image path is correct
+    url: "https://yourwebsite.com", // Add your website URL here
   };
 
   return (
@@ -26,28 +27,33 @@ export default function RootLayout({ children }) {
       <Head>
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
+
         <link
           rel="icon"
           href="/favicon.ico"
           sizes="32x32" // Use the correct sizes (32x32 in this case)
         />
         <meta content={meta.description} name="description" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"
-        />
+
         <meta name="theme-color" content="#000000" />
-        <meta property="og:url" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:url" content={meta.url} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:image" content={meta.cardImage} />
+
+        {/* Twitter Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@vercel" />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.cardImage} />
+
+        {/* Viewport Meta Tag */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       </Head>
 
       <body className={montserrat.className}>
