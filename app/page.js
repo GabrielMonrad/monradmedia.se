@@ -716,7 +716,8 @@ return (
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
-  viewBox="0 0 100vw 100vh"  // This ensures the SVG covers the entire page
+  xmlns="http://www.w3.org/2000/svg"
+  preserveAspectRatio="none" // Allows SVG to scale without preserving aspect ratio
 >
   {lines.map((line, index) => {
     const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
@@ -757,6 +758,7 @@ return (
     );
   })}
 </motion.svg>
+
 
 
 
