@@ -604,6 +604,7 @@ useEffect(() => {
     };
   }
 }, []);// Effect to create lines for the grid
+// In the existing useEffect for creating lines:
 useEffect(() => {
   const createLines = () => {
     const newLines = [];
@@ -633,11 +634,14 @@ useEffect(() => {
     setLines(newLines);
   };
 
-  // Only create lines when `isMobile` is determined
   if (isMobile !== undefined) {
     createLines();
   }
-}, [isMobile, cols, rows]); // Dependencies ensure lines are created when `isMobile`, `cols`, or `rows` changes
+}, [isMobile, cols, rows]);
+
+
+
+// Dependencies ensure lines are created when `isMobile`, `cols`, or `rows` changes
 
 // Movie selection handlers
 const handleSelectMovie = (movie) => {
