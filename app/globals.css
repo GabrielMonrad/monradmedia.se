@@ -24,6 +24,13 @@ body {
   font-weight: 200; /* ExtraLight weight */
 }
 
+
+svg {
+  transform: translateZ(0); /* Trigger GPU-accelerering */
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
 /* Full-page SVG container */
   .safari-svg {
     position: fixed;        /* Fix the SVG in place to cover the entire page */
