@@ -552,9 +552,7 @@ const [boxData, setBoxData] = useState( [
   },
 
   {
-    id: 15,
-    title: "... UPCOMING",
-    videoSrc: "https://www.youtube.com/embed/yMf9Xl1VvoA?si=uz2XhRoLBB1JiPne", // Ange sökväg till videon häre sökväg till videon här
+   
   },
   
 
@@ -1064,7 +1062,7 @@ className="flex flex-col items-center justify-center w-full h-full group transit
     : index === 15  
     
     ? ( // Box 9
-      <div className="flex items-center justify-center w-full h-full overflow-hidden text-white/50  ">
+      <div className="flex items-center justify-center w-full h-full overflow-hidden text-white/50   ">
        <span> ... UPCOMING</span>
       </div>
     )
