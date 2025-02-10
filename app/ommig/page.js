@@ -29,7 +29,7 @@ const contentVariants = {
 export default function Ommig() {
   return (
     <motion.div
-      className="flex flex-col items-center justify-center h-screen text-white"
+      className="flex flex-col items-center justify-center h-screen text-white min-h-screen"
       initial="hidden" // Initial state for the animation
       animate="visible" // Animation state to transition to
       variants={pageVariants} // Animation variants for background

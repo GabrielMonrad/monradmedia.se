@@ -52,6 +52,8 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {/* Preload Montserrat font for faster loading */}
+        <link rel="canonical" href="https://www.monradmedia.se/" />
+
         <link
           rel="preload"
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap"
