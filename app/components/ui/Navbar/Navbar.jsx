@@ -98,30 +98,34 @@ const Navbar = () => {
 
     return (
       <>
-        <div className="sticky top-0 z-50 hidden sm:block">
-          <motion.nav
-            className="bg-white text-black/60"
-            role="navigation"
-          >
-            <div className="relative flex justify-between items-center p-20 font-semibold w-full bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100">
-              {/* Logo positioned halfway between left border and center */}
-              <div className="absolute left-1/4 transform -translate-x-1/2 z-10 hover:scale-90 duration-500">
-                <Link href="/">
-                  <div onClick={handleClick}>
-                    <Image
-                      src="/Monrad Media (1).png"
-                      alt="Monrad Media"
-                      width={100} // Set the width
-                      height={100} // Set the height
-                      className="rounded-lg transition-all duration-700 hover:invert scale-110"
-                    />
-                  </div>
-                </Link>
-              </div>
+      <div className="sticky top-0 z-50 hidden sm:block">
+        <motion.nav
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          className="bg-white text-black/60"
+          role="navigation"
+        >
+          <div className="relative flex justify-between items-center p-20 font-semibold w-full bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100">
+            {/* Logo positioned halfway between left border and center */}
+            <div className="absolute left-1/4 transform -translate-x-1/2 z-10 hover:scale-90 duration-500">
+              <Link href="/">
+                <div onClick={handleClick}>
+                  <Image
+                    src="/Monrad Media (1).png"
+                    alt="Monrad Media"
+                    width={100}
+                    height={100}
+                    className="rounded-lg transition-all duration-700 hover:invert scale-110"
+                  />
+                </div>
+              </Link>
             </div>
-          </motion.nav>
-        </div>
-      </>
+          </div>
+        </motion.nav>
+      </div>
+    </>
+    
     );
   }
 
@@ -153,7 +157,13 @@ const Navbar = () => {
     };
 
     return (
-      <nav className=" bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-50" role="navigation">
+
+      
+      <motion.nav
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+       className=" bg-gradient-to-t from-white/70 to-black backdrop-blur backdrop-filter backdrop-opacity-100 sticky top-0 z-50" role="navigation">
         <div className="block lg:hidden md:hidden">
           <div className="flex justify-between items-center px-1 font-semibold">
             <Link href="/">
@@ -237,7 +247,7 @@ const Navbar = () => {
             </motion.div>
           </motion.div>
         </div>
-      </nav>
+      </motion.nav>
     );
   };
 
