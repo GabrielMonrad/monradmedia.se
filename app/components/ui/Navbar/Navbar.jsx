@@ -108,7 +108,7 @@ const Navbar = () => {
 
     return (
       <>
-        <div className="sticky top-0 z-50">
+        <div className="sticky top-0 z-50 hidden lg:block">
           <motion.nav
             className="bg-white text-black/60"
             role="navigation"
