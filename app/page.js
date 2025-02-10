@@ -480,7 +480,7 @@ const [boxData, setBoxData] = useState( [
   },
   {
     id: 6,
-    title: "Zalabees",
+    title: "",
     director: "Gabriel Monrad",
     videoSrc: "/OLW Commercial Final Draft.mov", // Ange sökväg till videon här
 
@@ -500,13 +500,13 @@ const [boxData, setBoxData] = useState( [
   },
   {
     id: 8,
-    title: "Lighthouse playin`",
+    title: "",
     director: "Gabriel Monrad",
     videoSrc: "/path/to/lighthouse_playin_video.mp4", // Ange sökväg till videon häre sökväg till videon här
   },
   {
     id: 9,
-    title: "Monrads website",
+    title: "",
     director: "Gabriel Monrad",
     videoSrc: "/path/to/monrads_website_video.mp4", // Ange sökväg till videon här
   
@@ -743,7 +743,7 @@ return (
   preserveAspectRatio="none"
 >
   {lines.map((line, index) => {
-    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) + 0.25;
+    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) -0.25;
     const randomDuration = isMobile
       ? Math.random() * 2.5 + 1
       : Math.random() * 1.5 + 3.7;
@@ -774,7 +774,7 @@ return (
           y2: line.y2,
         }}
         transition={{
-          duration: randomDuration * 0.9,
+          duration: randomDuration * 0.5,
           delay: randomDelay,
         }}
       />
@@ -1327,11 +1327,13 @@ className="flex flex-col items-center justify-center w-full h-full group transit
                 src="/Skärmavbild 2024-10-15 kl. 19.41.31.png" // Kontrollera att sökvägen är korrekt
                 alt="Gabriel Monrad"
                 layout="fill" // Bilden fyller hela boxen
-                className="transition-all duration-500 object-cover"
+                objectFit="cover" // Täcker hela boxen
+                className="w-full h-full object-cover transition-transform duration-300  transform hover:translate-x-5 hover:-translate-y-5"
                 variants={imageVariants}
+                transition={{ type: "spring", stiffness: 0, damping: 100 }} 
+// Smooth transition on load                variants={imageVariants}
                 initial="hidden"
                 animate="visible"
-                custom={index} // Pass index for staggered animations
               />
             </div>
           )

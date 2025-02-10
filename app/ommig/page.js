@@ -62,7 +62,7 @@ export default function Ommig() {
               som 
               regisserar, fotar,
               <br />
-              skriver och berättar  
+              skriver och berättar.  
             </p>
           </motion.div>
 
