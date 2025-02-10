@@ -440,7 +440,7 @@ const [boxData, setBoxData] = useState( [
   {
     id: 0,
     title: "Inner Power (KIA)",
-    tid:"01:25",
+    tid:"01:27",
 
     director: "Gabriel Monrad",
     dop: "Filip Palmbäck & Alfred Bolsöy",
