@@ -229,6 +229,7 @@ const MovieDetails = ({
 
 
   return (
+    
 <motion.div
   className="flex flex-col w-full h-screen overflow-hidden relative z-40"
   initial="hidden"
@@ -687,6 +688,15 @@ useEffect(() => {
 
 
 return (
+<motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="min-h-screen bg-white">
+
+
+
  <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
      {selectedMovie && ![2,6,8,9 ].includes(selectedMovie.id) && (  // Add condition to check if movieId is not 2 or 8
   <motion.div
@@ -1415,14 +1425,16 @@ className="flex flex-col items-center justify-center w-full h-full group transit
   );
 })}
 
+
 </div>
 
 
 
 )}
 
-      
-    </div>
+</div>
+
+    </motion.div>
 
   );
 }
