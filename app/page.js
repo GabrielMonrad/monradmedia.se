@@ -666,7 +666,7 @@ useEffect(() => {
       if (svg) {
         svg.style.display = 'none'; // Hide SVG
         svg.offsetHeight; // Trigger reflow
-        svg.style.display = 'hidden'; // Show SVG again
+        svg.style.display = 'block'; // Show SVG again
       }
     });
   }
@@ -686,7 +686,6 @@ useEffect(() => {
 
 
 
-  const newLocal = "grid grid-cols-2 grid-rows-8 gap-0 p-0 w-full h-full z-10 relative ";
 return (
  <div className={`relative w-screen h-screen bg-black overflow-hidden ${isFullScreen ? "fixed inset-0 z-30" : ""}`}>
      {selectedMovie && ![2,6,8,9 ].includes(selectedMovie.id) && (  // Add condition to check if movieId is not 2 or 8
@@ -724,8 +723,10 @@ return (
 
     {/* SVG for lines */}
     <svg
-  viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}
-  className="absolute inset-0 w-full h-full pointer-events-none z-20"
+  className="absolute inset-0 w-full h-full pointer-events-none z-20  "
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1 }}
   xmlns="http://www.w3.org/2000/svg"
   preserveAspectRatio="none"
 >
@@ -779,7 +780,7 @@ return (
       {isMobile ? (
 
         
-    <div className={newLocal}>
+    <div className="grid grid-cols-2 grid-rows-8 gap-0 p-0 w-full h-full z-10 relative ">
           
     {boxData.map((box, index) => {
       return (
