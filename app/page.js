@@ -738,7 +738,7 @@ return (
     const strokeWidth = isMobile ? 3 : 4;
 
     return (
-      <motion.line
+      <motion.line className="sm:block hidden"
         key={index}
         x1={line.x1}
         y1={line.y1}
@@ -862,7 +862,7 @@ className="flex flex-col items-center justify-center w-full h-full group transit
       className="flex flex-col items-center justify-center w-full h-full group transition-all duration-300 hover:scale-105"
     >
      <span
-  className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d] transition-all duration-500 hover:text-[#7f7f7f]`}
+  className={`${sixtyfourFont.className} text-sm md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#5b6d5d]  hover:text-[#7f7f7f]`}
   style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
 >
   GABRIEL
