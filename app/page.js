@@ -54,6 +54,7 @@ const boxData = [
   {
     id: 0,
     title: "Inner Power (KIA)",
+    tid:"00:31",
     director: "Gabriel Monrad",
     dop: "Filip Palmbäck & Alfred Bolsöy",
     producer: "Tilda Persdotter",
@@ -64,7 +65,10 @@ const boxData = [
   },
   {
     id: 1,
+    tid:"00:31",
+
     title: "wish I could be something bigger.",
+    
     director: "Gabriel Monrad",
     dop: "Gabriel Monrad ",
     gaffer: "Wilhelm Jonson",
@@ -78,6 +82,8 @@ const boxData = [
   {
     id: 3,
     title: "Maran",
+    tid:"00:31",
+
     director: "Oscar Gidefjord",
     dop: "Gabriel Monrad & Wille Jonson",
     producerSound: "Tilda Persdotter",
@@ -137,6 +143,7 @@ const boxData = [
   {
     id: 10,
     title: "OLW",
+    tid:"00:31",
     director: "Viktor Blomdahl @company9",
     dop: "Gabriel Monrad",
     gaffer: "Cynthia Toledo, Kalle Silvmark",
@@ -190,6 +197,8 @@ const boxData = [
 const MovieDetails = ({
   movieId,
   title,
+  tid,
+
   director,
   Everything,
   dop,
@@ -431,6 +440,8 @@ const [boxData, setBoxData] = useState( [
   {
     id: 0,
     title: "Inner Power (KIA)",
+    tid:"01:25",
+
     director: "Gabriel Monrad",
     dop: "Filip Palmbäck & Alfred Bolsöy",
     producer: "Tilda Persdotter",
@@ -442,6 +453,7 @@ const [boxData, setBoxData] = useState( [
   {
     id: 1,
     title: "wish I could be something bigger.",
+    tid:"01:16",
     director: "Gabriel Monrad",
     dop: "Gabriel Monrad ",
     gaffer: "Wilhelm Jonson",
@@ -455,6 +467,7 @@ const [boxData, setBoxData] = useState( [
   {
     id: 3,
     title: "Maran",
+    tid:"09:01",
     director: "Oscar Gidefjord",
     dop: "Gabriel Monrad & Wille Jonson",
     producerSound: "Tilda Persdotter",
@@ -466,12 +479,14 @@ const [boxData, setBoxData] = useState( [
   {
     id: 4,
     title: " SPICE OF 2021",
+    tid:"01:17",
     Everything: "Gabriel Monrad",
     videoSrc: "https://www.youtube.com/embed/_MnnDJ8nz3Y?si=kVa7KjGGK8f195ly", // Ange sökväg till videon här
   },
   {
     id: 5,
     title: "Hockeygear: CCM ft6",
+    tid:"00:50",
     director: "Gabriel Monrad",
     dop: "Gabriel Monrad",
     gaffer: "Martin Vilcek",
@@ -489,6 +504,7 @@ const [boxData, setBoxData] = useState( [
   {
     id: 7,
     title: "Luffarslöjd",
+    tid:"Coming soon",
     director: "Edvin Runudde Bydén",
     producer: "Henry Forsnor & Thea Grude",
     dop: "Wilhelm Jonson",
@@ -514,6 +530,7 @@ const [boxData, setBoxData] = useState( [
   {
     id: 10,
     title: "OLW",
+    tid:"00:31",
     director: "Viktor Blomdahl @company9",
     dop: "Gabriel Monrad",
     gaffer: "Cynthia Toledo, Kalle Silvmark",
@@ -523,6 +540,8 @@ const [boxData, setBoxData] = useState( [
   {
     id: 11,
     title: "Take off - DeVetDu",
+    tid:"03:36",
+
     director: "Viktor Blomdahl",
     dop: "Gabriel Monrad",
     producer: "Marcus Nyberg",
@@ -534,6 +553,8 @@ const [boxData, setBoxData] = useState( [
   {
     id: 12,
     title: "Zalabees",
+    tid:"01:05",
+
     Everything:" Gabriel Monrad",
     videoSrc: "https://www.youtube.com/embed/vHxg4FgObbA?si=yUFBE0_WF8fS76gp", // Ange sökväg till videon här
   },
@@ -547,6 +568,8 @@ const [boxData, setBoxData] = useState( [
   {
     id: 14,
     title: "Lighthouse playin`",
+    tid:"07:03",
+
     Everything: "Gabriel Monrad",
     videoSrc: "https://www.youtube.com/embed/yMf9Xl1VvoA?si=uz2XhRoLBB1JiPne", // Ange sökväg till videon häre sökväg till videon här
   },

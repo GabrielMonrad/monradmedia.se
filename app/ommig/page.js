@@ -99,13 +99,13 @@ export default function Ommig() {
 
           {/* Centered Text Box for Mobile (Right Box) */}
           <motion.div
-            className="bg-white/0 w-full max-w-[350px] text-black p-4 rounded mt-8"
+            className="bg-white/0 w-full max-w-[350px] text-black p-4 rounded mt-8 text-center justify-center flex "
             initial="hidden"
             animate="visible"
             variants={contentVariants}
             transition={{ duration: 0.5, delay: 1 }}
           >
-            <p className={`${rajdhani.className} font-bold text-2xl text-white leading-[1.5] text-center mt-32`}>
+            <p className={`${rajdhani.className} font-bold text-2xl text-white leading-[1.5] text-center mt-32 mr-5`}>
               Mitt sätt att förmedla film är en rytmisk musikalitet i känsla, timing, vinklar, färger & djup, där djupet ofta är fler än i tre dimensioner. Film är för mig både konkret & abstrakt. Det är art i sin renaste form.
             </p>
           </motion.div>
