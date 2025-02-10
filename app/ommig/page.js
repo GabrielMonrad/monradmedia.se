@@ -105,7 +105,7 @@ export default function Ommig() {
             variants={contentVariants}
             transition={{ duration: 0.5, delay: 1 }}
           >
-            <p className={`${rajdhani.className} font-bold text-2xl text-white leading-[1.5] text-center mt-60`}>
+            <p className={`${rajdhani.className} font-bold text-2xl text-white leading-[1.5] text-center mt-32`}>
               Mitt sätt att förmedla film är en rytmisk musikalitet i känsla, timing, vinklar, färger & djup, där djupet ofta är fler än i tre dimensioner. Film är för mig både konkret & abstrakt. Det är art i sin renaste form.
             </p>
           </motion.div>
