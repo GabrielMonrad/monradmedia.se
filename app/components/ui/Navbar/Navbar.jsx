@@ -7,17 +7,7 @@ import { GeistMono } from '@next/font/google';
 import { useRouter } from 'next/navigation'; // From next/navigation
 
 const Navbar = () => {
-  const colorfulDivVariants1 = {
-    hover: { scaleX: [1, 1.2, 1.5, 1], transition: { duration: 0.9 } },
-  };
-
-  const colorfulDivVariants2 = {
-    hover: { scaleX: [1, 0.6, 1, 0.8, 1], transition: { duration: 0.9 } },
-  };
-
-  const colorfulDivVariants3 = {
-    hover: { scaleX: [1, 2, 1.2, 1], transition: { duration: 0.9 } },
-  };
+  
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -108,7 +98,7 @@ const Navbar = () => {
 
     return (
       <>
-        <div className="sticky top-0 z-50 hidden lg:block">
+        <div className="sticky top-0 z-50 hidden sm:block">
           <motion.nav
             className="bg-white text-black/60"
             role="navigation"
