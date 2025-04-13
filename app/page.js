@@ -755,53 +755,7 @@ return (
 )}
 
     {/* SVG for lines */}
-    <svg
-  className="absolute inset-0 w-full h-full pointer-events-none z-20  "
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1 }}
-  xmlns="http://www.w3.org/2000/svg"
-  preserveAspectRatio="none"
->
-  {lines.map((line, index) => {
-    const randomDelay = Math.random() * (isMobile ? 2.5 : 1.75) -0.25;
-    const randomDuration = isMobile
-      ? Math.random() * 2.5 + 1
-      : Math.random() * 1.5 + 3.7;
-    const strokeWidth = isMobile ? 3 : 4;
-
-    return (
-      <motion.line className="sm:block hidden"
-        key={index}
-        x1={line.x1}
-        y1={line.y1}
-        x2={line.x2}
-        y2={line.y2}
-        stroke="#5b665c"
-        strokeWidth={strokeWidth}
-        style={{
-          willChange: "transform, opacity", // Optimize for animation
-        }}
-        initial={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x1,
-          y2: line.y1,
-        }}
-        animate={{
-          x1: line.x1,
-          y1: line.y1,
-          x2: line.x2,
-          y2: line.y2,
-        }}
-        transition={{
-          duration: randomDuration * 0.5,
-          delay: randomDelay,
-        }}
-      />
-    );
-  })}
-</svg>
+    
 
 
 
